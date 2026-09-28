@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>World Editor</title>
+        <link rel="stylesheet" href="style.css">
+
+    </head>
+    <body>
+        <h1>World Editor</h1>
+        <canvas id="WorldCanvas"></canvas>
+
+        <div id="Controls">
+            <button onclick="removeAll()">remove</button>
+            <button onclick="save()">save</button>
+        </div>
+        
+        <script src="js/math/graph.js"></script>
+        <script src="js/math/utils.js"></script>
+        
+        <script src="js/graphEditor.js"></script>
+        <script src="js/viewport.js"></script>
+
+        <script src="js/primatives/point.js"></script>
+        <script src="js/primatives/segment.js"></script>
+
+
+        <script>
+
+
+            WorldCanvas.width = 600;
+            WorldCanvas.height = 600;
+
+            const ctx = WorldCanvas.getContext("2d");
+
+            const graphString = localStorage.getItem("graph")
+            const graphInfo = graphString ? JSON.parse(graphString) : null;
+
+            const graph = graphInfo 
+            ? Graph.load(graphInfo)     // if stored 
+            : new Graph();                  // not stored
+
+            const viewport = new Viewport(WorldCanvas) 
+            
+            const graphEditor = new GraphEditor(viewport, graph)
+
+            
+            // use to constatnly update the canvas
+            // is this useful? no, as there is a possible way to do this
+            animate();
+
+            function animate() {
+                viewport.reset();
+                graphEditor.display();
+                requestAnimationFrame(animate);
+            }
+
+            function removeAll(){
+                graphEditor.removeAll();
+            }
+
+            function save() {
+                localStorage.setItem("graph", JSON.stringify(graph)) 
+            }
+
+        </script>
+
+    </body>
+</html>
