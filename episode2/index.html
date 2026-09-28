@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>World Editor</title>
+        <link rel="stylesheet" href="style.css">
+
+    </head>
+    <body>
+        <h1>World Editor</h1>
+        <canvas id="WorldCanvas"></canvas>
+
+        <div id="Controls">
+
+        </div>
+        
+        <script src="js/math/graph.js"></script>
+        <script src="js/math/utils.js"></script>
+        
+        <script src="js/graphEditor.js"></script>
+
+        <script src="js/primatives/point.js"></script>
+        <script src="js/primatives/segment.js"></script>
+
+
+        <script>
+
+
+            WorldCanvas.width = 600;
+            WorldCanvas.height = 600;
+
+            const ctx = WorldCanvas.getContext("2d");
+
+            const p1 = new Point(300, 300);
+            const p2 = new Point(200, 400);
+            const p3 = new Point(300, 150);
+            const p4 = new Point(500, 100);
+
+            const s1 = new Segment(p1, p2);
+            const s2 = new Segment(p1, p3);
+            const s3 = new Segment(p3, p4);
+            const s4 = new Segment(p2, p4);
+
+            const graph = new Graph([p1, p2, p3, p4], [s1, s2, s3, s4]);
+            
+            const graphEditor = new GraphEditor(WorldCanvas, graph)
+            
+            // use to constatnly update the canvas
+            // is this useful? no, as there is a possible way to do this
+            animate();
+
+            function animate() {
+                ctx.clearRect(0, 0, WorldCanvas.width, WorldCanvas.height);
+                graphEditor.display();
+                requestAnimationFrame(animate);
+            }
+
+        </script>
+
+    </body>
+</html>
