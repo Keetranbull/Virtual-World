@@ -191,7 +191,7 @@ class World {
 
     #getIntersectionPoints() {
         const subset = [];
-        for (point of this.graph.points){
+        for (const point of this.graph.points){
             let degree = 0;
             for (const segment of this.graph.segments){
                 if (segment.includes(point)){
